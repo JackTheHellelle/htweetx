@@ -55,7 +55,7 @@ const SubmitBtn = styled.input`
 	cursor: pointer;
 	&:hover,
 	&:active {
-			opacity: 0.9;
+		opacity: 0.9;
 	}
 `;
 
@@ -118,7 +118,8 @@ export default function PostTweetForm() {
 				maxLength={180}
 				onChange={onChange}
 				value={tweet}
-				placeholder="What is happening?!"
+				placeholder="오늘의 한화이글스는 어땠나요?"
+				required
 			/>
 			<AttachFileButton htmlFor="file">
 				{file ? "Photo added ✅" : "Add photo"}
