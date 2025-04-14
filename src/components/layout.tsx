@@ -15,6 +15,7 @@ const Head = styled.div`
   align-items: center;
   height: 70px;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  background-color: #07111F;
 `;
 
 const Logo = styled.img`

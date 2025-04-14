@@ -3,7 +3,7 @@ import { ITweet } from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,11 +30,16 @@ const Photo = styled.img`
 const Username = styled.span`
   font-weight: 600;
   font-size: 15px;
+	margin-bottom: 5px;
 `;
 
 const Payload = styled.p`
   margin: 10px 0px;
   font-size: 18px;
+	line-height: 1.4;
+	white-space: pre-wrap; /* \n 줄바꿈 유지 */
+  word-break: normal;           /* 기본 단어 단위 줄바꿈 */
+  overflow-wrap: break-word;    /* 너무 길면 단어 단위로 줄바꿈 */
 `;
 
 const DeleteButton = styled.button`
@@ -76,7 +81,25 @@ const Spinner = styled.div`
   }
 `;
 
-export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
+const AuthorRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const Avatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+const formatDate = (timestamp: number) => {
+	const date = new Date(timestamp);
+	return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+};
+
+export default function Tweet({ username, photo, tweet, userId, id, avatar, createdAt }: ITweet) {
 	const user = auth.currentUser;
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
@@ -139,11 +162,17 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
 		setNewFile(null);
   	setPreview(photo);
 		setIsEditing(false);
-	};
+	};	
   return (
     <Wrapper>
       <Column>
-        <Username>{username}</Username>
+				<AuthorRow>
+					{avatar && <Avatar src={avatar} alt="profile" />}
+					<div style={{ display: "flex", flexDirection: "column" }}>
+						<Username>{username}</Username>
+						<span style={{ fontSize: "12px", opacity: 0.7 }}>{formatDate(createdAt)}</span>
+					</div>
+				</AuthorRow>
 				{isEditing ? (
 					<>
         		<input type="text" value={editText} onChange={(e) => setEditText(e.target.value)} style={{ fontSize: "16px", margin: "10px 0", padding: "5px", width: "100%" }} />
@@ -161,7 +190,7 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
 							</div>
 						)}
 					</>
-				) : (
+				) : (					
 					<Payload>{tweet}</Payload>
 				)}
       </Column>

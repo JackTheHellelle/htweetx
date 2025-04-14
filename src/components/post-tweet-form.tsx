@@ -59,6 +59,23 @@ const SubmitBtn = styled.input`
 	}
 `;
 
+const CharCount = styled.div<{ full: boolean }>`
+  font-size: 14px;
+  align-self: flex-end;
+  color: ${(props) => (props.full ? "#FF4444" : "#aaa")};
+  font-weight: ${(props) => (props.full ? "bold" : "normal")};
+  transition: all 0.2s ease-in-out;
+  animation: ${(props) => (props.full ? "shake 0.3s" : "none")};
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+  }
+`;
+
 export default function PostTweetForm() {
 	const [isLoading, setLoading] = useState(false);
 	const [tweet, setTweet] = useState("");
@@ -92,6 +109,7 @@ export default function PostTweetForm() {
 				createdAt: Date.now(),	
 				username: user.displayName || "Anonymous",
 				userId: user.uid,
+				avatar: user.photoURL ?? null,
 			});
 			//트윗에 파일첨부 있을 경우
 			if (file) {
@@ -121,6 +139,9 @@ export default function PostTweetForm() {
 				placeholder="오늘의 한화이글스는 어땠나요?"
 				required
 			/>
+			<CharCount full={tweet.length === 180}>
+  			{tweet.length}/180
+			</CharCount>
 			<AttachFileButton htmlFor="file">
 				{file ? "Photo added ✅" : "Add photo"}
 			</AttachFileButton>

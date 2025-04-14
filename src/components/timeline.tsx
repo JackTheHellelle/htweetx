@@ -12,6 +12,7 @@ export interface ITweet {
 	userId: string;
 	username: string;
 	createdAt: number;
+	avatar?: string;
 }
 
 const Wrapper = styled.div`
@@ -22,14 +23,14 @@ const Wrapper = styled.div`
 
 export default function Timeline() {
 	const [tweets, setTweets] = useState<ITweet[]>([]);
-	const topRef = useRef<HTMLDivElement>(null); // ⬅️ 타겟 ref
+	const topRef = useRef<HTMLDivElement>(null); //타겟 ref
 	useEffect(() => {
 		let unsubscribe: Unsubscribe | null = null;
 		const fetchTweets = async () => {
 			const tweetsQuery = query(
 				collection(db, "tweets"),
 				orderBy("createdAt", "desc"),
-				limit(25)
+				limit(25),
 			);			
 			// const snapshot = await getDocs(tweetsQuery);
 			// const tweets = snapshot.docs.map((doc) => {
@@ -45,13 +46,14 @@ export default function Timeline() {
 			// });
 			unsubscribe = await onSnapshot(tweetsQuery, (snapshot) => {
 				const tweets = snapshot.docs.map((doc) => {
-					const { tweet, createdAt, userId, username, photo } = doc.data();
+					const { tweet, createdAt, userId, username, photo, avatar } = doc.data();
 					return {
 						tweet, 
 						createdAt, 
 						userId, 
 						username, 
 						photo,
+						avatar,
 						id: doc.id,
 					}
 				});
