@@ -78,12 +78,19 @@ const IconButton = styled.button`
 
 export default function Profile() {
   const user = auth.currentUser;
+  const creationTime = user?.metadata.creationTime;
+  const lastSignInTime = user?.metadata.lastSignInTime;
   const [avatar, setAvatar] = useState(user?.photoURL);
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(user?.displayName ?? "");
   const [nameLoading, setNameLoading] = useState(false);
+  const formatDate = (isoDateString?: string) => {
+    if (!isoDateString) return "";
+    const date = new Date(isoDateString);
+    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+  };
   const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!user) return;
@@ -199,24 +206,34 @@ export default function Profile() {
             }            
           </>
         ) : (
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <Name>{user?.displayName ?? "Anonymous"}</Name>
-            <IconButton onClick={() => setIsEditingName(true)} aria-label="Edit name">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
-                />
-              </svg>
-            </IconButton>
-          </div>
+          <>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Name>{user?.displayName ?? "Anonymous"}</Name>
+              <IconButton onClick={() => setIsEditingName(true)} aria-label="Edit name">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                  />
+                </svg>
+              </IconButton>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10px",  }}>              
+              <span style={{ fontSize: "14px", color: "#ccc" }}>
+                가입일: {formatDate(user?.metadata.creationTime)}
+              </span>
+              <span style={{ fontSize: "14px", color: "#ccc" }}>
+                마지막 로그인: {formatDate(user?.metadata.lastSignInTime)}
+              </span>
+            </div>
+          </>
         )
       }
       <Tweets>
