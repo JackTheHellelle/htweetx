@@ -3463,6 +3463,7 @@ Content-Type: `+y.contentType+`\r
     padding: 10px 0;
     z-index: 999;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
   }
 `,$f=Ie.div`
   cursor: pointer;
@@ -3483,7 +3484,7 @@ Content-Type: `+y.contentType+`\r
       fill: #FC4E00;
     }
   }
-  
+
   @media (max-width: 768px) {
     height: 40px;
     width: 40px;
