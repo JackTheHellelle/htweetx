@@ -10,7 +10,23 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 42px;
+  font-size: 50px;
+  font-weight: 700;
+  text-align: center;
+  .sub {
+    font-size: 40px;
+    font-weight: 500;
+    margin-top: 3vw;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 10vw;
+    letter-spacing: -0.1vw;
+    .sub {
+      font-size: 6vw;
+    }
+  }
 `;
 
 export const Form = styled.form`
@@ -30,7 +46,7 @@ export const Input = styled.input`
   font-size: 16px;
   &[type="submit"] {
     cursor: pointer;
-    background-color: #1d9bf0;
+    background-color: #FC4E00;
     color: #fff;
     &:hover {
       opacity: 0.8;
@@ -46,10 +62,10 @@ export const Error = styled.span`
 export const Switcher = styled.span`
   margin-top: 20px;
   a {
-    color: #1d9bf0;
+    color: #FC4E00;
   }
   button {
-    color: #1d9bf0;
+    color: #FC4E00;
     text-decoration: underline;
     background-color: transparent;
     border: none;

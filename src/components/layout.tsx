@@ -30,6 +30,11 @@ const BodyGrid = styled.div`
   height: 100%;
   padding: 90px 0px 50px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    display: block;
+    padding-bottom: 100px; /* 하단 메뉴 공간 확보 */
+  }
 `;
 
 const Menu = styled.div`
@@ -37,6 +42,20 @@ const Menu = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #07111F;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 999;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+  }
 `;
  
 const MenuItem = styled.div`
@@ -56,6 +75,14 @@ const MenuItem = styled.div`
     border-color: #FC4E00;
     svg {
       fill: #FC4E00;
+    }
+  }
+
+  @media (max-width: 768px) {
+    height: 40px;
+    width: 40px;
+    svg {
+      width: 24px;
     }
   }
 `;

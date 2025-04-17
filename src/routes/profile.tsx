@@ -227,10 +227,10 @@ export default function Profile() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10px",  }}>              
               <span style={{ fontSize: "14px", color: "#ccc" }}>
-                가입일: {formatDate(user?.metadata.creationTime)}
+                가입일: {formatDate(creationTime)}
               </span>
               <span style={{ fontSize: "14px", color: "#ccc" }}>
-                마지막 로그인: {formatDate(user?.metadata.lastSignInTime)}
+                마지막 로그인: {formatDate(lastSignInTime)}
               </span>
             </div>
           </>

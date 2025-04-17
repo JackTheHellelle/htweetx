@@ -8,8 +8,8 @@
     "build": "cross-env NODE_ENV=production tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build && copy build\\index.html build\\404.html",
-    "deploy": "firebase deploy"
+    "deploy": "gh-pages -d build -r https://github.com/JackTheHellelle/htweetx.git",
+    "predeploy": "npm run build && copy build\\index.html build\\404.html"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -42,5 +42,6 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0",
     "vite": "^6.1.0"
-  }
+  },
+  "homepage": "https://JackTheHellelle.github.io/htweetx"
 }

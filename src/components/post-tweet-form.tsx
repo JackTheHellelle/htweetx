@@ -26,16 +26,16 @@ const TextArea = styled.textarea`
 	}
 	&:focus {
 		outline: none;
-		border-color: #1d9bf0;
+		border-color: #FC4E00;
 	}
 `;
 
 const AttachFileButton = styled.label`
 	padding: 10px 0px;
-	color: #1d9bf0;
+	color: #FC4E00;
 	text-align: center;
 	border-radius: 20px;
-	border: 1px solid #1d9bf0;
+	border: 1px solid #FC4E00;
 	font-size: 14px;
 	font-weight: 600;
 	cursor: pointer;
@@ -46,7 +46,7 @@ const AttachFileInput = styled.input`
 `;
 
 const SubmitBtn = styled.input`
-	background-color: #1d9bf0;
+	background-color: #FC4E00;
 	color: white;
 	border: none;
 	padding: 10px 0px;
@@ -59,13 +59,15 @@ const SubmitBtn = styled.input`
 	}
 `;
 
-const CharCount = styled.div<{ full: boolean }>`
+const CharCount = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "full",
+})<{ full: boolean }>`
   font-size: 14px;
   align-self: flex-end;
   color: ${(props) => (props.full ? "#FF4444" : "#aaa")};
   font-weight: ${(props) => (props.full ? "bold" : "normal")};
-  transition: all 0.2s ease-in-out;
   animation: ${(props) => (props.full ? "shake 0.3s" : "none")};
+  transition: all 0.2s ease-in-out;
 
   @keyframes shake {
     0% { transform: translateX(0); }

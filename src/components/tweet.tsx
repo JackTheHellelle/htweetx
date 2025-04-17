@@ -4,6 +4,8 @@ import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 
 const Wrapper = styled.div`
   display: flex;
@@ -94,10 +96,59 @@ const Avatar = styled.img`
   object-fit: cover;
 `;
 
-const formatDate = (timestamp: number) => {
-	const date = new Date(timestamp);
-	return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-};
+const FallbackAvatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc;
+  color: #07111F;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+`;
+
+const TextArea = styled.textarea`
+	margin: 10px 0;
+	border: 2px solid white;
+	padding: 20px;
+	border-radius: 20px;
+	font-size: 16px;
+	color: white;
+	background-color: black;
+	width: 100%;
+	resize: none;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+			Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	&::placeholder {
+		font-size: 16px;
+	}
+	&:focus {
+		outline: none;
+		border-color: #FC4E00;
+	}
+`;
+
+// const formatDate = (timestamp: number) => {
+//   const date = new Date(timestamp);
+//   const yyyy = date.getFullYear();
+//   const mm = String(date.getMonth() + 1).padStart(2, "0");
+//   const dd = String(date.getDate()).padStart(2, "0");
+//   const hh = String(date.getHours()).padStart(2, "0");
+//   const min = String(date.getMinutes()).padStart(2, "0");
+//   const sec = String(date.getSeconds()).padStart(2, "0");
+
+//   return `${yyyy}.${mm}.${dd} ${hh}:${min}:${sec}`;
+// };
+
+const getRelativeTime = (timestamp: number) => {
+	return formatDistanceToNow(new Date(timestamp), {
+		addSuffix: true,
+		locale: ko,
+	});
+}
 
 export default function Tweet({ username, photo, tweet, userId, id, avatar, createdAt }: ITweet) {
 	const user = auth.currentUser;
@@ -167,15 +218,19 @@ export default function Tweet({ username, photo, tweet, userId, id, avatar, crea
     <Wrapper>
       <Column>
 				<AuthorRow>
-					{avatar && <Avatar src={avatar} alt="profile" />}
+					{avatar ? (
+						<Avatar src={avatar} alt="profile" />
+					) : (
+						<FallbackAvatar>{username?.charAt(0)}</FallbackAvatar>
+					)}
 					<div style={{ display: "flex", flexDirection: "column" }}>
 						<Username>{username}</Username>
-						<span style={{ fontSize: "12px", opacity: 0.7 }}>{formatDate(createdAt)}</span>
+						<span style={{ fontSize: "12px", opacity: 0.7 }}>{getRelativeTime(createdAt)}</span>
 					</div>
 				</AuthorRow>
 				{isEditing ? (
 					<>
-        		<input type="text" value={editText} onChange={(e) => setEditText(e.target.value)} style={{ fontSize: "16px", margin: "10px 0", padding: "5px", width: "100%" }} />
+        		<TextArea value={editText} onChange={(e) => setEditText(e.target.value)} />
 						<input type="file" accept="image/*" onChange={onFileChange} />
     				{preview && <Photo src={preview} />}
 						{isLoading ? (
@@ -184,7 +239,7 @@ export default function Tweet({ username, photo, tweet, userId, id, avatar, crea
 								<span style={{ fontSize: "14px", fontStyle: "italic" }}>Saving...</span>
 							</div>
 						) : (
-							<div style={{ display: "flex", gap: "5px" }}>
+							<div style={{ display: "flex", gap: "5px", marginBottom: "10px" }}>
 								<EditButton onClick={onSave}>Save</EditButton>
 								<DeleteButton onClick={onCancel}>Cancel</DeleteButton>
 							</div>

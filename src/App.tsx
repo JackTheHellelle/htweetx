@@ -58,10 +58,11 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Wrapper = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   padding: 0 5vw;
+  overflow-y: auto;
 `;
 
 function App() {

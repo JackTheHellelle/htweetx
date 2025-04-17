@@ -65,7 +65,10 @@ export default function CreateAccount() {
   }
   return (
     <Wrapper>
-      <Title>Log into 𝕏</Title>
+      <Title>
+        RIDE THE STORM
+        <p className="sub">Log into 𝕏</p>
+      </Title>
       <Form onSubmit={onSubmit}>        
         <Input
           onChange={onChange}
@@ -92,7 +95,7 @@ export default function CreateAccount() {
       {message && <span style={{ color: "lightgreen" }}>{message}</span>}
       <Switcher>
         Don't have an account?
-        <Link to="/create-account">Create one &rarr;</Link>
+        {" "}<Link to="/create-account">Create one &rarr;</Link>
       </Switcher>
       <Switcher>
         Forgot your password?
