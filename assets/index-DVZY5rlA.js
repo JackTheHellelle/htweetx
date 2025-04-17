@@ -3742,15 +3742,22 @@ Content-Type: `+y.contentType+`\r
   width: 420px;
   padding: 50px 0px;
 `,xT=Ie.h1`
-  font-size: 10vw;
+  font-size: 50px;
   font-weight: 700;
-  letter-spacing: -0.1vw;
   text-align: center;
   .sub {
-    font-size: 6vw;
+    font-size: 40px;
     font-weight: 500;
     margin-top: 3vw;
     opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 10vw;
+    letter-spacing: -0.1vw;
+    .sub {
+      font-size: 6vw;
+    }
   }
 `,NT=Ie.form`
   margin-top: 50px;
